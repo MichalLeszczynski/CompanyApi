@@ -12,12 +12,14 @@ namespace CompanyApi
         public SqlHierarchyId Level;
         public string Name;
         public string Position;
+        public int Salary;
        
-        public Employee(SqlHierarchyId Level, string Name, string Position)
+        public Employee(SqlHierarchyId Level, string Name, string Position, int Salary)
         {
             this.Level = Level;
             this.Name = Name;
             this.Position = Position;
+            this.Salary = Salary;
         }
 
         public void Print()
@@ -39,7 +41,7 @@ namespace CompanyApi
 
         internal List<Employee> GetEmployees()
         {
-            SqlCommand command = new SqlCommand("getAllEmployees", sqlConnection)
+            SqlCommand command = new SqlCommand("GetAllEmployees", sqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };
@@ -48,14 +50,14 @@ namespace CompanyApi
             List<Employee> employees = new List<Employee>();
             while (result.Read())
             {
-                employees.Add(new Employee((SqlHierarchyId)result["Level"], (string)result["Position"], (string)result["Name"]));
+                employees.Add(new Employee((SqlHierarchyId)result["Level"], (string)result["Position"], (string)result["Name"], (int)result["Salary"]));
             }
             result.Close();
             return employees;
         }
         internal List<Employee> getEmployeeWithChildren(string Level)
         {
-            SqlCommand command = new SqlCommand("getEmployeeWithChildren", sqlConnection)
+            SqlCommand command = new SqlCommand("GetEmployeeWithChildren", sqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };
@@ -65,33 +67,44 @@ namespace CompanyApi
             List<Employee> employees = new List<Employee>();
             while (result.Read())
             {
-                employees.Add(new Employee((SqlHierarchyId)result["Level"], (string)result["Position"], (string)result["Name"]));
+                employees.Add(new Employee((SqlHierarchyId)result["Level"], (string)result["Position"], (string)result["Name"], (int)result["Salary"]));
             }
             result.Close();
             return employees;
         }
 
-        public void AddEmployee(string Level, string Name, string Position)
+        public void AddEmployee(string Level, string Name, string Position, int Salary)
         {
-            SqlCommand command = new SqlCommand("addEmployee", sqlConnection)
+            SqlCommand command = new SqlCommand("AddEmployee", sqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };
             command.Parameters.Add("@Level", SqlDbType.VarChar).Value = Level;
             command.Parameters.Add("@Name", SqlDbType.VarChar).Value = Name;
             command.Parameters.Add("@Position", SqlDbType.VarChar).Value = Position;
+            command.Parameters.Add("@Salary", SqlDbType.Int).Value = Salary;
+
 
             command.ExecuteNonQuery();
         }
 
         public void RemoveEmployee(string Level)
         {
-            SqlCommand command = new SqlCommand("removeEmployee", sqlConnection)
+            SqlCommand command = new SqlCommand("RemoveEmployee", sqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };
             command.Parameters.Add("@Level", SqlDbType.VarChar).Value = Level;
 
+            command.ExecuteNonQuery();
+        }
+
+        public void RemoveAllEmployees()
+        {
+            SqlCommand command = new SqlCommand("RemoveAllEmployees", sqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
             command.ExecuteNonQuery();
         }
 

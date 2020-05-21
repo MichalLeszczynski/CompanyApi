@@ -5,19 +5,19 @@ go
 CREATE TABLE Employees (
 		Level hierarchyid NOT NULL UNIQUE,
 		Name nvarchar(30) NOT NULL,
-		Position nvarchar(30) NOT NULL
+		Position nvarchar(30) NOT NULL,
+		Salary Int NOT NULL
 	);
 go
 
 
-create procedure addEmployee 
-@Level as varchar(1000), @Name as varchar(1000), @Position as varchar(1000)
+create procedure AddEmployee 
+@Level as varchar(1000), @Name as varchar(1000), @Position as varchar(1000), @Salary as Int
 as
 BEGIN
-INSERT Employees VALUES ( hierarchyid::Parse(@Level), @Name, @Position );
+INSERT Employees VALUES ( hierarchyid::Parse(@Level), @Name, @Position, @Salary );
 END
 go
-
 
 create procedure RemoveEmployee 
 @Level hierarchyid
@@ -28,28 +28,34 @@ WHERE Level=@Level
 END
 go 
 
-
-create procedure getEmployee 
-@Level hierarchyid
+create procedure RemoveAllEmployees
 as
 BEGIN
-SELECT Level as [Level], Name, Position FROM Employees WHERE Level=@Level
+DELETE FROM Employees
 END
 go 
 
-create procedure getEmployeeWithChildren
+create procedure GetEmployee 
 @Level hierarchyid
 as
 BEGIN
-SELECT Level as [Level], Name, Position FROM Employees WHERE Level.IsDescendantOf(@Level) = 1
+SELECT Level as [Level], Name, Position, Salary FROM Employees WHERE Level=@Level
+END
+go 
+
+create procedure GetEmployeeWithChildren
+@Level hierarchyid
+as
+BEGIN
+SELECT Level as [Level], Name, Position, Salary FROM Employees WHERE Level.IsDescendantOf(@Level) = 1
 END
 go
 
 
-create procedure getAllEmployees
+create procedure GetAllEmployees
 as
 BEGIN
-SELECT Level.ToString() as [Level], Name, Position FROM Employees
+SELECT Level as [Level], Name, Position, Salary FROM Employees
 END
 
 go
@@ -59,26 +65,29 @@ go
 drop table Employees
 go
 
-drop procedure addEmployee
+drop procedure AddEmployee
 go
 
-drop procedure removeEmployee
+drop procedure RemoveEmployee
 go
 
-drop procedure getEmployee
+drop procedure RemoveAllEmployees
 go
 
-drop procedure getEmployeeWithChildren
+drop procedure GetEmployee
 go
 
-drop procedure getAllEmployees
+drop procedure GetEmployeeWithChildren
+go
+
+drop procedure GetAllEmployees
 go
 
 /*Insert*/
 
 select * from dbo.[Employees]
 
-INSERT dbo.[Employees] ([Level], [Name], [Position]) VALUES (N'/', N'Mark Hamilton', N'CEO')
+INSERT dbo.[Employees] ([Level], [Name], [Position], [Salary]) VALUES (N'/', N'Mark Hamilton', N'CEO', 20000)
 
 INSERT dbo.[Employees] ([Level], [Name], [Position]) VALUES (N'/1/', N'James Smith', N'Vice President Finance')
 
@@ -113,7 +122,7 @@ INSERT dbo.[Employees] ([Level], [Name], [Position]) VALUES ('/4/2/2/1/', N'', N
 
 /*Debug*/
 
-EXEC getAllEmployees
+EXEC RemoveAllEmployees
 go
 
 

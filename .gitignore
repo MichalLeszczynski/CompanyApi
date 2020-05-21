@@ -185,3 +185,4 @@ FakesAssemblies/
 *.v2
 *.sqlite
 *.json
+/.vs/CompanyApi/v16/TestStore/0
