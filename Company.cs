@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 
 namespace CompanyApi
 {
@@ -21,7 +20,7 @@ namespace CompanyApi
             this.Position = Position;
         }
 
-        public void print()
+        public void Print()
         {
             Console.WriteLine((Level.ToString() + "\t" + Position + "\t" + Name));
         }
@@ -38,7 +37,7 @@ namespace CompanyApi
             sqlConnection.Open();
         }
 
-        internal List<Employee> getEmployees()
+        internal List<Employee> GetEmployees()
         {
             SqlCommand command = new SqlCommand("getAllEmployees", sqlConnection)
             {
@@ -56,13 +55,28 @@ namespace CompanyApi
         }
         internal List<Employee> getEmployeeWithChildren(string Level)
         {
-            return getEmployees().Where(x => (bool)x.Level.IsDescendantOf(SqlHierarchyId.Parse(Level))).ToList();
+            SqlCommand command = new SqlCommand("getEmployeeWithChildren", sqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            command.Parameters.Add("@Level", SqlDbType.VarChar).Value = Level;
+
+            SqlDataReader result = command.ExecuteReader();
+            List<Employee> employees = new List<Employee>();
+            while (result.Read())
+            {
+                employees.Add(new Employee((SqlHierarchyId)result["Level"], (string)result["Position"], (string)result["Name"]));
+            }
+            result.Close();
+            return employees;
         }
 
-        public void addEmployee(string Level, string Name, string Position)
+        public void AddEmployee(string Level, string Name, string Position)
         {
-            SqlCommand command = new SqlCommand("addEmployee", sqlConnection);
-            command.CommandType = CommandType.StoredProcedure;
+            SqlCommand command = new SqlCommand("addEmployee", sqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
             command.Parameters.Add("@Level", SqlDbType.VarChar).Value = Level;
             command.Parameters.Add("@Name", SqlDbType.VarChar).Value = Name;
             command.Parameters.Add("@Position", SqlDbType.VarChar).Value = Position;
@@ -70,10 +84,12 @@ namespace CompanyApi
             command.ExecuteNonQuery();
         }
 
-        public void removeEmployee(string Level)
+        public void RemoveEmployee(string Level)
         {
-            SqlCommand command = new SqlCommand("removeEmployee", sqlConnection);
-            command.CommandType = CommandType.StoredProcedure;
+            SqlCommand command = new SqlCommand("removeEmployee", sqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
             command.Parameters.Add("@Level", SqlDbType.VarChar).Value = Level;
 
             command.ExecuteNonQuery();

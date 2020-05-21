@@ -12,22 +12,22 @@ namespace CompanyApi
             Company company1 = new Company();
 
             Console.WriteLine("\nAll employees:");
-            company1.getEmployees().ForEach(x => x.print());
+            company1.GetEmployees().ForEach(x => x.Print());
 
             Console.WriteLine("\nEmployee with its subordinates:");
-            company1.getEmployeeWithChildren("/4/").ForEach(x => x.print());
+            company1.getEmployeeWithChildren("/4/").ForEach(x => x.Print());
 
             Console.WriteLine("\nRemoving /4/1/:");
-            company1.removeEmployee("/4/1/");
+            company1.RemoveEmployee("/4/1/");
 
             Console.WriteLine("\nEmployee with its subordinates:");
-            company1.getEmployeeWithChildren("/4/").ForEach(x => x.print());
+            company1.getEmployeeWithChildren("/4/").ForEach(x => x.Print());
 
             Console.WriteLine("\nAdding /4/1/:");
-            company1.addEmployee("/4/1/", "Your Mama", "King");
+            company1.AddEmployee("/4/1/", "Your Mama", "King");
 
             Console.WriteLine("\nEmployee with its subordinates:");
-            company1.getEmployeeWithChildren("/4/").ForEach(x => x.print());
+            company1.getEmployeeWithChildren("/4/").ForEach(x => x.Print());
 
         }
     }

@@ -8,15 +8,8 @@ CREATE TABLE Employees (
 		Position nvarchar(30) NOT NULL
 	);
 go
-/*
-create procedure addEmployee 
-@Level as varchar(1000), @Name as varchar(1000), @Position as varchar(1000)
-as
-BEGIN
-INSERT Employees VALUES ( hierarchyid::Parse(@Level), @Name, @Position );
-END
-go
-*/
+
+
 create procedure addEmployee 
 @Level as varchar(1000), @Name as varchar(1000), @Position as varchar(1000)
 as
@@ -34,23 +27,8 @@ DELETE FROM Employees
 WHERE Level=@Level 
 END
 go 
-/*
-create procedure getEmployee 
-@Level hierarchyid
-as
-BEGIN
-SELECT Level.ToString() as [Level], Name, Position FROM Employees WHERE Level=@Level
-END
-go 
 
-create procedure getEmployeeWithChildren
-@Level varchar(100)
-as
-BEGIN
-SELECT Level.ToString() as [Level], Name, Position FROM Employees WHERE Level.IsDescendantOf(hierarchyid::Parse(@Level)) = 1
-END
-go
-*/
+
 create procedure getEmployee 
 @Level hierarchyid
 as
@@ -66,8 +44,6 @@ BEGIN
 SELECT Level as [Level], Name, Position FROM Employees WHERE Level.IsDescendantOf(@Level) = 1
 END
 go
-
-
 
 
 create procedure getAllEmployees
@@ -140,39 +116,6 @@ INSERT dbo.[Employees] ([Level], [Name], [Position]) VALUES ('/4/2/2/1/', N'', N
 EXEC getAllEmployees
 go
 
-
-
-
-
-
-
-
-
-
-
-
-/*
-go
-
-IF EXISTS ( SELECT  *
-            FROM    sys.objects
-            WHERE   object_id = OBJECT_ID(N'hierarchy_CreateTree')
-                    AND type IN ( N'P', N'PC' ) ) 
-drop procedure hierarchy_CreateTree
-go
-create procedure hierarchy_CreateTree
-@name varchar(100)
-as
-BEGIN
-if not exists (select * from sysobjects where name='Company' and xtype='U')
-    CREATE TABLE @name (
-		Level hierarchyid NOT NULL UNIQUE,
-		FirstName nvarchar(30) NOT NULL,
-		LastName nvarchar(30) NOT NULL
-	);
-END
-*/
-go
 
 
     
