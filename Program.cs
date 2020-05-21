@@ -10,6 +10,7 @@ namespace CompanyApi
         {
             Console.WriteLine("Hello World!");
             Company company1 = new Company();
+
             Console.WriteLine("\nAll employees:");
             company1.getEmployees().ForEach(x => x.print());
 

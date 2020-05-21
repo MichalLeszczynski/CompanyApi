@@ -49,7 +49,7 @@ namespace CompanyApi
             List<Employee> employees = new List<Employee>();
             while (result.Read())
             {
-                employees.Add(new Employee(SqlHierarchyId.Parse((string)result["Level"]), (string)result["Position"], (string)result["Name"]));
+                employees.Add(new Employee((SqlHierarchyId)result["Level"], (string)result["Position"], (string)result["Name"]));
             }
             result.Close();
             return employees;
@@ -63,7 +63,7 @@ namespace CompanyApi
         {
             SqlCommand command = new SqlCommand("addEmployee", sqlConnection);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add("@Level", SqlDbType.Text).Value = Level.ToString();
+            command.Parameters.Add("@Level", SqlDbType.VarChar).Value = Level;
             command.Parameters.Add("@Name", SqlDbType.VarChar).Value = Name;
             command.Parameters.Add("@Position", SqlDbType.VarChar).Value = Position;
 
