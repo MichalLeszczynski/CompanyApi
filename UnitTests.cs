@@ -11,6 +11,7 @@ namespace CompanyApi
         public void SetUp()
         {
             company = new Company();
+            company.RemoveAllEmployees();
             company.AddEmployee("/", "Mark Hamilton", "CEO", 20000);
             company.AddEmployee("/1/", "James Smith", "Vice President Finance", 15000);
 
@@ -25,11 +26,13 @@ namespace CompanyApi
             company.AddEmployee("/2/2/", "Adam Nelson", "Plant Manager", 4000);
             company.AddEmployee("/2/2/1/", "Garry Baker", "Maintanance Supervisor", 3000);
 
+
             company.AddEmployee("/3/", "Hilda Hall", "Vice President Marketing", 12000);
 
             company.AddEmployee("/3/1/", "Selena Gomez", "Sales Manager", 8000);
             company.AddEmployee("/3/2/", "David Diaz", "Advertising Manager", 7000);
             company.AddEmployee("/3/2/1/", "Michael Parker", "Account Executive", 3000);
+
 
             company.AddEmployee("/4/", "Penelope Cruz", "Vice President HR", 11000);
 
@@ -50,6 +53,34 @@ namespace CompanyApi
         {
             Assert.AreEqual(company.GetEmployees().Count, 16);
         }
+
+        [Test]
+        public void TestGetEmployeeWithChildren()
+        {
+            Assert.AreEqual(company.GetEmployeeWithChildren("/4/").Count, 3);
+        }
+
+        [Test]
+        public void TestAddEmployee()
+        {
+            Assert.AreEqual(company.GetEmployees().Count, 16); 
+            company.AddEmployee("/6/", "Adam Nelson", "Plant Manager", 4000);
+            Assert.AreEqual(company.GetEmployees().Count, 17);
+            Assert.AreEqual(company.GetEmployee("/6/").Name, "Adam Nelson");
+            company.RemoveEmployee("/6/");
+            Assert.AreEqual(company.GetEmployees().Count, 16);
+        }
+
+        [Test]
+        public void TestRemoveEmployee()
+        {
+            Assert.AreEqual(company.GetEmployees().Count, 16);
+            company.RemoveEmployee("/1/");
+            Assert.AreEqual(company.GetEmployees().Count, 15);
+            company.AddEmployee("/1/", "James Smith", "Vice President Finance", 15000);
+            Assert.AreEqual(company.GetEmployees().Count, 16);
+        }
+
 
     }
 }

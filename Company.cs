@@ -24,7 +24,7 @@ namespace CompanyApi
 
         public void Print()
         {
-            Console.WriteLine((Level.ToString() + "\t" + Position + "\t" + Name));
+            Console.WriteLine((Level.ToString() + "\t" + Position + "\t" + Name + "\t" + Salary));
         }
     }
     internal class Company
@@ -55,7 +55,23 @@ namespace CompanyApi
             result.Close();
             return employees;
         }
-        internal List<Employee> getEmployeeWithChildren(string Level)
+
+        internal Employee GetEmployee(string Level)
+        {
+            SqlCommand command = new SqlCommand("GetEmployee", sqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            command.Parameters.Add("@Level", SqlDbType.VarChar).Value = Level;
+
+            SqlDataReader result = command.ExecuteReader();
+            result.Read();
+            Employee employee = new Employee((SqlHierarchyId)result["Level"], (string)result["Name"], (string)result["Position"], (int)result["Salary"]);
+            result.Close();
+            return employee;
+        }
+
+        internal List<Employee> GetEmployeeWithChildren(string Level)
         {
             SqlCommand command = new SqlCommand("GetEmployeeWithChildren", sqlConnection)
             {
@@ -67,7 +83,7 @@ namespace CompanyApi
             List<Employee> employees = new List<Employee>();
             while (result.Read())
             {
-                employees.Add(new Employee((SqlHierarchyId)result["Level"], (string)result["Position"], (string)result["Name"], (int)result["Salary"]));
+                employees.Add(new Employee((SqlHierarchyId)result["Level"], (string)result["Name"], (string)result["Position"], (int)result["Salary"]));
             }
             result.Close();
             return employees;
