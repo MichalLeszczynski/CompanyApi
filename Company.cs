@@ -46,13 +46,12 @@ namespace CompanyApi
                 CommandType = CommandType.StoredProcedure
             };
 
-            SqlDataReader result = command.ExecuteReader();
+            using SqlDataReader result = command.ExecuteReader();
             List<Employee> employees = new List<Employee>();
             while (result.Read())
             {
                 employees.Add(new Employee((SqlHierarchyId)result["Level"], (string)result["Position"], (string)result["Name"], (int)result["Salary"]));
             }
-            result.Close();
             return employees;
         }
 
@@ -64,10 +63,9 @@ namespace CompanyApi
             };
             command.Parameters.Add("@Level", SqlDbType.VarChar).Value = Level;
 
-            SqlDataReader result = command.ExecuteReader();
+            using SqlDataReader result = command.ExecuteReader();
             result.Read();
             Employee employee = new Employee((SqlHierarchyId)result["Level"], (string)result["Name"], (string)result["Position"], (int)result["Salary"]);
-            result.Close();
             return employee;
         }
 
@@ -79,13 +77,12 @@ namespace CompanyApi
             };
             command.Parameters.Add("@Level", SqlDbType.VarChar).Value = Level;
 
-            SqlDataReader result = command.ExecuteReader();
+            using SqlDataReader result = command.ExecuteReader();
             List<Employee> employees = new List<Employee>();
             while (result.Read())
             {
                 employees.Add(new Employee((SqlHierarchyId)result["Level"], (string)result["Name"], (string)result["Position"], (int)result["Salary"]));
             }
-            result.Close();
             return employees;
         }
 
@@ -123,6 +120,35 @@ namespace CompanyApi
             };
             command.ExecuteNonQuery();
         }
+
+        internal int GetSalary(string procedure_name)
+        {
+            SqlCommand command = new SqlCommand(procedure_name, sqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            using SqlDataReader result = command.ExecuteReader();
+            result.Read();
+            int salary = (int)result["Salary"];
+            return salary;
+        }
+
+        internal int GetMaxSalary()
+        {
+            return GetSalary("GetMaxSalary");
+        }
+
+        internal int GetAverageSalary()
+        {
+            return GetSalary("GetAverageSalary");
+        }
+
+        internal int GetSumSalary()
+        {
+            return GetSalary("GetSumSalary");
+        }
+
 
     }
 }

@@ -57,7 +57,28 @@ as
 BEGIN
 SELECT Level as [Level], Name, Position, Salary FROM Employees
 END
+go
 
+
+create procedure GetMaxSalary
+as
+BEGIN
+SELECT MAX(Salary) as Salary FROM Employees
+END
+go
+
+create procedure GetAverageSalary
+as
+BEGIN
+SELECT AVG(Salary) as Salary FROM Employees
+END
+go
+
+create procedure GetSumSalary
+as
+BEGIN
+SELECT SUM(Salary) as Salary FROM Employees
+END
 go
 
 
@@ -81,6 +102,15 @@ drop procedure GetEmployeeWithChildren
 go
 
 drop procedure GetAllEmployees
+go
+
+drop procedure GetMaxSalary
+go
+
+drop procedure GetAverageSalary
+go
+
+drop procedure GetSumSalary
 go
 
 /*Insert*/

@@ -39,7 +39,6 @@ namespace CompanyApi
             company.AddEmployee("/4/1/", "Sherlock Holmes", "HR Manager", 4000);
             company.AddEmployee("/4/2/", "Joseph Murphy", "Recruit Manager", 5000);
 
-
         }
 
         [TearDown]
@@ -55,6 +54,15 @@ namespace CompanyApi
         }
 
         [Test]
+        public void TestGetEmployee()
+        {
+            Employee employee = company.GetEmployee("/1/");
+            Assert.AreEqual(employee.Name, "James Smith");
+            Assert.AreEqual(employee.Position, "Vice President Finance");
+            Assert.AreEqual(employee.Salary, 15000);
+        }
+
+        [Test]
         public void TestGetEmployeeWithChildren()
         {
             Assert.AreEqual(company.GetEmployeeWithChildren("/4/").Count, 3);
@@ -63,10 +71,14 @@ namespace CompanyApi
         [Test]
         public void TestAddEmployee()
         {
-            Assert.AreEqual(company.GetEmployees().Count, 16); 
+            Assert.AreEqual(company.GetEmployees().Count, 16);
             company.AddEmployee("/6/", "Adam Nelson", "Plant Manager", 4000);
             Assert.AreEqual(company.GetEmployees().Count, 17);
+
             Assert.AreEqual(company.GetEmployee("/6/").Name, "Adam Nelson");
+            Assert.AreEqual(company.GetEmployee("/6/").Position, "Plant Manager");
+            Assert.AreEqual(company.GetEmployee("/6/").Salary, 4000);
+
             company.RemoveEmployee("/6/");
             Assert.AreEqual(company.GetEmployees().Count, 16);
         }
@@ -81,6 +93,23 @@ namespace CompanyApi
             Assert.AreEqual(company.GetEmployees().Count, 16);
         }
 
+        [Test]
+        public void TestGetMaxSalary()
+        {
+            Assert.AreEqual(company.GetMaxSalary(), 20000);
+        }
+
+        [Test]
+        public void TestGetAverageSalary()
+        {
+            Assert.AreEqual(company.GetAverageSalary(), 8562);
+        }
+
+        [Test]
+        public void TestGetSumSalary()
+        {
+            Assert.AreEqual(company.GetSumSalary(), 137000);
+        }
 
     }
 }
