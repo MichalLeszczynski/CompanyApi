@@ -24,7 +24,7 @@ namespace CompanyApi
 
         public void Print()
         {
-            Console.WriteLine((Level.ToString() + "\t" + Position + "\t" + Name + "\t" + Salary));
+            Console.WriteLine((Level.ToString() + "\t" + Name + "\t" + Salary + "\t" + Position));
         }
     }
     internal class Company
@@ -50,7 +50,7 @@ namespace CompanyApi
             List<Employee> employees = new List<Employee>();
             while (result.Read())
             {
-                employees.Add(new Employee((SqlHierarchyId)result["Level"], (string)result["Position"], (string)result["Name"], (int)result["Salary"]));
+                employees.Add(new Employee((SqlHierarchyId)result["Level"], (string)result["Name"], (string)result["Position"], (int)result["Salary"]));
             }
             return employees;
         }

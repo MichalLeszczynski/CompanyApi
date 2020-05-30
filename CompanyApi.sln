@@ -3,14 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyApi", "CompanyApi.csproj", "{B5595E83-3896-40E2-8F24-8C53D262EB1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanyApi", "CompanyApi.csproj", "{B5595E83-3896-40E2-8F24-8C53D262EB1B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{22B3F64F-AA4F-4646-B47F-86A49E32EAC6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Company|Any CPU = Company|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5595E83-3896-40E2-8F24-8C53D262EB1B}.Company|Any CPU.ActiveCfg = Company|Any CPU
+		{B5595E83-3896-40E2-8F24-8C53D262EB1B}.Company|Any CPU.Build.0 = Company|Any CPU
 		{B5595E83-3896-40E2-8F24-8C53D262EB1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B5595E83-3896-40E2-8F24-8C53D262EB1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5595E83-3896-40E2-8F24-8C53D262EB1B}.Release|Any CPU.ActiveCfg = Release|Any CPU

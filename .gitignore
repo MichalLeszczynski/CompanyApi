@@ -186,3 +186,5 @@ FakesAssemblies/
 *.sqlite
 *.json
 /.vs/CompanyApi/v16/TestStore/0
+/.vs/CompanyApi/config/applicationhost.config
+/.editorconfig
