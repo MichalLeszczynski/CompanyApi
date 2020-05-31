@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		create_procedures.sql = create_procedures.sql
+		..\..\..\..\Downloads\Michał_Leszczyński_Dokumentacja_BD2.pdf = ..\..\..\..\Downloads\Michał_Leszczyński_Dokumentacja_BD2.pdf
 	EndProjectSection
 EndProject
 Global
