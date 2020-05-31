@@ -58,6 +58,32 @@ namespace CompanyApi
         {
             company.RemoveAllEmployees();
         }
+        public void GetSalary()
+        {
+            int command;
+            Console.Clear();
+            Console.WriteLine("Available statistics: ");
+            Console.WriteLine(" 1. Maximum salary");
+            Console.WriteLine(" 2. Average salary");
+            Console.WriteLine(" 3. Sum salary");
+
+            Console.WriteLine("Your choice:");
+            command = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Your command: " + command);
+
+            switch (command)
+            {
+                case 1:
+                    Console.WriteLine("Max salary: " + company.GetMaxSalary());
+                    break;
+                case 2:
+                    Console.WriteLine("Average salary: " + company.GetAverageSalary());
+                    break;
+                case 3:
+                    Console.WriteLine("Sum salary: " + company.GetSumSalary());
+                    break;
+                }
+            }
 
         public void AddMockData()
         {

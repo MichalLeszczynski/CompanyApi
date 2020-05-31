@@ -25,7 +25,8 @@ namespace CompanyApi
                 Console.WriteLine(" 5. Remove employee");
                 Console.WriteLine(" 6. Add mock data to the databse");
                 Console.WriteLine(" 7. Remove all employees");
-                Console.WriteLine(" 8. Exit the app");
+                Console.WriteLine(" 8. Get salary statistics");
+                Console.WriteLine(" 9. Exit the app");
 
                 Console.WriteLine("Your choice:");
                 command = Convert.ToInt32(Console.ReadLine());
@@ -62,6 +63,10 @@ namespace CompanyApi
                         app.RemoveAllEmployees();
                         break;
                     case 8:
+                        Console.WriteLine("Selecting salary statistics");
+                        app.GetSalary();
+                        break;
+                    case 9:
                         Environment.Exit(0);
                         break;
                 }
